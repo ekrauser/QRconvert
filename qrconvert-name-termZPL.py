@@ -34,8 +34,18 @@ if not os.path.exists(csv_file):
         writer = csv.writer(f)
         writer.writerow(["Name", "MAC Address", "Serial Number"])  # Added "Serial Number"
 
-# Initialize the printer
-printer = zebra('printer-name')
+# List available Zebra printers
+available_printers = zebra.printers()
+print("Available Zebra printers:")
+for i, printer in enumerate(available_printers, start=1):
+    print(f"{i}. {printer}")
+
+# Ask the user to select a printer
+printer_index = int(input("Enter the number of the printer you want to use: ")) - 1
+selected_printer = available_printers[printer_index]
+
+# Initialize the selected printer
+printer = zebra(selected_printer)
 
 while True:
     # Read name and MAC addresses from the terminal
