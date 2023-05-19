@@ -3,7 +3,7 @@ import pyqrcode
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 import os
-from zebra import zebra
+import zebra
 
 def convert_mac_format(mac):
     return ":".join(mac[i:i+2] for i in range(0, 12, 2)).upper()
@@ -34,19 +34,11 @@ if not os.path.exists(csv_file):
         writer = csv.writer(f)
         writer.writerow(["Name", "MAC Address", "Serial Number"])  # Added "Serial Number"
 
-# List available Zebra printers
-available_printers = zebra.printers()
-print("Available Zebra printers:")
-for i, printer in enumerate(available_printers, start=1):
-    print(f"{i}. {printer}")
-
-# Ask the user to select a printer from a list
-printer_index = int(input("Enter the number of the printer you want to use: ")) - 1
-selected_printer = available_printers[printer_index]
+# Ask the user for the printer name
+printer_name = input("Enter the name of your printer: ")
 
 # Initialize the selected printer
-printer = zebra(selected_printer)
-
+printer = zebra.Usb(0xPID, 0xVID, 0, 0, 0) #replace PID and VID with your printer's PID and VID
 
 while True:
     # Read name and MAC addresses from the terminal
