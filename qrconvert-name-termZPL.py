@@ -40,12 +40,13 @@ print("Available Zebra printers:")
 for i, printer in enumerate(available_printers, start=1):
     print(f"{i}. {printer}")
 
-# Ask the user to select a printer
+# Ask the user to select a printer from a list
 printer_index = int(input("Enter the number of the printer you want to use: ")) - 1
 selected_printer = available_printers[printer_index]
 
 # Initialize the selected printer
 printer = zebra(selected_printer)
+
 
 while True:
     # Read name and MAC addresses from the terminal
