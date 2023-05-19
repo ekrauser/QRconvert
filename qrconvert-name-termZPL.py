@@ -1,11 +1,20 @@
 import csv
 import pyqrcode
+import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 import os
-import subprocess
+from zebra import zebra
 
 def convert_mac_format(mac):
     return ":".join(mac[i:i+2] for i in range(0, 12, 2)).upper()
+
+def convert_image_to_zpl(image_path):
+    img = Image.open(image_path).convert('1')
+    width, height = img.size
+    data = list(img.getdata())
+    hex_data = ''.join(['{:02X}'.format(data[i]//255) for i in range(0, len(data))])
+    zpl = '^GFA,{0},{1},{2},{3}'.format(len(hex_data), len(hex_data)//2, width//8, hex_data)
+    return zpl
 
 # Directory to save the generated QR codes
 output_directory = "qr_codes/"
@@ -16,21 +25,6 @@ image_height = 350
 qr_size = 200
 text_font_size = 24
 
-# ZPL command to start the print format
-zpl_start = "^XA"
-
-# ZPL command to set the label home position
-zpl_home = "^LH0,0"
-
-# ZPL command to define the QR code field
-zpl_qr_code = "^FO50,50^BQN,2,10^FDMA,MAC_ADDRESS^FS"
-
-# ZPL command to define the text field
-zpl_text = "^FO50,275^A0N,28,28^FDMA,MAC_ADDRESS^FS"
-
-# ZPL command to end the print format
-zpl_end = "^XZ"
-
 # CSV file to store the name, MAC address, and serial number
 csv_file = "mac_addresses.csv"
 
@@ -39,6 +33,9 @@ if not os.path.exists(csv_file):
     with open(csv_file, "w") as f:
         writer = csv.writer(f)
         writer.writerow(["Name", "MAC Address", "Serial Number"])  # Added "Serial Number"
+
+# Initialize the printer
+printer = zebra('printer-name')
 
 while True:
     # Read name and MAC addresses from the terminal
@@ -84,21 +81,23 @@ while True:
         final_path = output_directory + final_filename
         img.save(final_path)
 
+        # Convert the final image to ZPL
+        zpl_data = convert_image_to_zpl(final_path)
+
+        # ZPL command to start the print format
+        zpl_start = "^XA"
+
+        # ZPL command to set the label home position
+        zpl_home = "^LH0,0"
+
+        # ZPL command to end the print format
+        zpl_end = "^XZ"
+
         # Generate the ZPL file contents
-        zpl_contents = zpl_start + zpl_home
-        zpl_contents += zpl_qr_code.replace("MAC_ADDRESS", mac_address) + "\n"
-        zpl_contents += zpl_text.replace("MAC_ADDRESS", mac_address) + "\n"
-        zpl_contents += zpl_end
+        zpl_contents = zpl_start + zpl_home + zpl_data + zpl_end
 
-        # Save the ZPL file
-        zpl_filename = f"qr_with_mac_{mac_address}.zpl"
-        zpl_path = output_directory + zpl_filename
-        with open(zpl_path, "w") as zpl_file:
-            zpl_file.write(zpl_contents)
-
-        # Print the ZPL file to the Zebra printer
-        print_command = f"lp -d YOUR_PRINTER_NAME {zpl_path}"
-        subprocess.run(print_command, shell=True)
+        # Print the ZPL command to the Zebra printer
+        printer.output(zpl_contents)
 
         # Append name, converted MAC address, and serial number to the CSV file
         with open(csv_file, "a", newline="") as f:
