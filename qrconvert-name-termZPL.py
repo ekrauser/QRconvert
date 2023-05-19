@@ -38,7 +38,7 @@ if not os.path.exists(csv_file):
 printer_name = input("Enter the name of your printer: ")
 
 # Initialize the selected printer
-printer = zebra.Usb(0xPID, 0xVID, 0, 0, 0) #replace PID and VID with your printer's PID and VID
+printer = zebra.Usb(0xPID, 0xVID, 0, 0, 0) #replace PID and VID with your printer's PID and VID, that's probably why you're seeing this error
 
 while True:
     # Read name and MAC addresses from the terminal
