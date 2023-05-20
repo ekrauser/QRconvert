@@ -37,34 +37,34 @@ jobs:
         name: ZQRconvert
         path: dist/
 
-  release:
-    needs: build
-    runs-on: windows-latest
-    steps:
-    - name: Download Artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: ZQRconvert
-        path: .
+#  release:
+#    needs: build
+#    runs-on: windows-latest
+#    steps:
+#    - name: Download Artifact
+#      uses: actions/download-artifact@v2
+#      with:
+#        name: ZQRconvert
+#        path: .
 
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: auto-release-${{ github.run_number }}
-        release_name: Auto-Release ${{ github.run_number }}
-        draft: false
-        prerelease: false
+#    - name: Create Release
+#      id: create_release
+#      uses: actions/create-release@v1
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      with:
+#        tag_name: auto-release-${{ github.run_number }}
+#        release_name: Auto-Release ${{ github.run_number }}
+#        draft: false
+#        prerelease: false
 
-    - name: Upload Release Asset
-      id: upload-release-asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} 
-        asset_path: ./dist/ZQRconvert.exe  
-        asset_name: ZQRconvert.exe
-        asset_content_type: application/octet-stream
+#    - name: Upload Release Asset
+#      id: upload-release-asset
+#      uses: actions/upload-release-asset@v1
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      with:
+#        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+#        asset_path: ./dist/ZQRconvert.exe  
+#        asset_name: ZQRconvert.exe
+#        asset_content_type: application/octet-stream
