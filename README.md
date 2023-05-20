@@ -10,7 +10,9 @@ qrconvert-term.py - same thing as above, but takes input from the terminal
 qrconvert-termZPL.py - same thing again, but used to test how to send output directly to a zebra printer via zpl
   another test
   
-qrconvert-name-termZPL.py - final product for now
+qrconvert-name-termZPL.py - mess of testing
+
+qrconvert-final.py - the finished product (for now)
   1. asks for printer name (you can scan the existing qr code on the printer)
   2. asks for printer serial number (you can scan the barcode on the bottom of the printer)
   3. asks for printer bt mac address (you can scan the other barcode on the bottom of the printer)
