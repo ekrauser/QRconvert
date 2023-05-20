@@ -1,3 +1,5 @@
+#created by ekrauser@ for UIL2 and whoever else can get some use out of it
+
 import csv
 import pyqrcode
 import win32print
@@ -28,13 +30,13 @@ if not os.path.exists(csv_file):
 
 while True:
     # Read name and MAC addresses from the terminal
-    name = input("Enter Name (or 'q' to quit): ")
+    name = input("Scan Printer Name - This is the existing QR code (or 'q' to quit): ")
     if name.lower() == 'q':
         break
 
-    serial_number = input("Enter Serial Number: ")
+    serial_number = input("Scan Printer Serial Number: ")
 
-    mac_addresses = input("Enter MAC addresses (separated by commas): ").split(",")
+    mac_addresses = input("Scan Bluetooth MAC addresses: ").split(",")
 
     # Iterate through each MAC address
     for mac_address in mac_addresses:
@@ -70,7 +72,7 @@ while True:
         final_path = output_directory + final_filename
         img.save(final_path)
 
-            # Print image using Windows default printer
+        # Print image using Windows DEFAULT printer, so make sure you have it config'd ahead of time
         HORZRES = 8
         VERTRES = 10
 
@@ -104,4 +106,4 @@ while True:
             writer = csv.writer(f)
             writer.writerow([name.strip(), converted_mac.strip(), serial_number.strip()])
 
-print("QR codes with converted MAC addresses created and saved to CSV.")
+print("QR codes with converted MAC addresses created and data saved to CSV.")
