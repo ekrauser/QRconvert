@@ -29,13 +29,13 @@ jobs:
     - name: Package Application
       run: |
         pyinstaller --onefile --icon=qrguy.ico qrconvert-final.py
-        mv dist/qrconvert-final.exe dist/ZQRconvert.exe
-        mkdir dist/qr_codes
+        Move-Item -Path dist/qrconvert-final.exe -Destination dist/ZQRconvert.exe -Force
+        New-Item -ItemType Directory -Force -Path dist/qr_codes
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ZQRconvert.exe
-        path: dist/ZQRconvert.exe
+        name: ZQRconvert
+        path: dist/
 
   release:
     needs: build
@@ -44,7 +44,7 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v2
       with:
-        name: ZQRconvert.exe
+        name: ZQRconvert
         path: .
 
     - name: Create Release
@@ -65,6 +65,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} 
-        asset_path: ./ZQRconvert.exe
+        asset_path: ./ZQRconvert/ZQRconvert.exe
         asset_name: ZQRconvert.exe
         asset_content_type: application/octet-stream
