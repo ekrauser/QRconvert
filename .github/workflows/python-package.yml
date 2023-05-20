@@ -30,6 +30,7 @@ jobs:
       run: |
         pyinstaller --onefile --icon=qrguy.ico qrconvert-final.py
         mv dist/qrconvert-final.exe dist/ZQRconvert.exe
+        mkdir dist/empty_folder
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
@@ -38,7 +39,7 @@ jobs:
 
   release:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Download Artifact
       uses: actions/download-artifact@v2
