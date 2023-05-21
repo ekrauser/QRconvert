@@ -1,5 +1,5 @@
 # QRconvert
-converts bluetooth mac address to proper XX:YY format, creates a qrcode, sends it to a label printer
+converts bluetooth mac address to proper XX:YY format, creates a csv, creates a qrcode, sends it to a label printer
 
 qrconvert-final.py - the finished product (for now)
   1. asks for printer name (you can scan the existing qr code on the printer)
