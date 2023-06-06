@@ -26,6 +26,9 @@ if not os.path.exists(csv_file):
         writer = csv.writer(f)
         writer.writerow(["Name", "MAC Address", "Serial Number"])
 
+# Ask user if they want to reprint the name label
+reprint = input("Do you want to reprint the Name Label? (y/n): ")
+
 while True:
     # Read name and MAC addresses from the terminal
     name = input("Scan Printer Name - This is the existing QR code (or 'q' to quit): ")
@@ -35,8 +38,6 @@ while True:
     serial_number = input("Scan Printer Serial Number: ")
 
     mac_addresses = input("Scan Bluetooth MAC addresses: ").split(",")
-
-    reprint = input("Do you want to reprint the Name Label? (y/n): ")
 
     # If the user chose to reprint the name label
     if reprint.lower() == 'y':
