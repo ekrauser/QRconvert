@@ -121,4 +121,3 @@ while True:
             writer.writerow([name.strip(), converted_mac.strip(), serial_number.strip()])
 
 print("QR codes with converted MAC addresses created and data saved to CSV.")
-
