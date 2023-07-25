@@ -121,3 +121,9 @@ while True:
             writer.writerow([name.strip(), converted_mac.strip(), serial_number.strip()])
 
 print("QR codes with converted MAC addresses created and data saved to CSV.")
+
+
+
+# Check if the directory exists, create it if not
+if not os.path.exists(output_directory):
+    os.mkdir(output_directory)
