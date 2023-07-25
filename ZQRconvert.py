@@ -89,7 +89,7 @@ qr_size = min(image_width, image_height) - 50
 text_font_size = 24
 
 # CSV file to store the name, MAC address, and serial number
-csv_file = "mac_addresses.csv"
+csv_file = "printer_macs.csv"
 
 # Check if the CSV file exists, create it if not
 if not os.path.exists(csv_file):
